@@ -43,94 +43,94 @@ hospital_ids=[row[0] for row in cur.fetchall()]
 #Statues.............................
 Statuses=['Pending', 'Approved', 'Rejected']
 
-# #Donor Fake data......................................................
-# for i in range(100000):
-#     gender=random.choice(['Male','Female'])
-#     name=fake.first_name_male() if gender == 'Male' else fake.first_name_female()
-#     cnic= cnic_gender_based(gender)
-#     contact= '+923'+str(random.randint(0,4))+fake.msisdn()[3:10]
-#     cur.execute("""
+#Donor Fake data......................................................
+for i in range(100000):
+    gender=random.choice(['Male','Female'])
+    name=fake.first_name_male() if gender == 'Male' else fake.first_name_female()
+    cnic= cnic_gender_based(gender)
+    contact= '+923'+str(random.randint(0,4))+fake.msisdn()[3:10]
+    cur.execute("""
                 
-#         INSERT INTO donor(Name,Age,Gender,CNIC,Blood_Group,Contact,Address,Last_Donation_Date,Medical_History)
-#         VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)
-#     """,(
-#         name,random.randint(18,50),gender,cnic,random.choice(blood_group),contact,fake.address(),fake.date_between(start_date='-1y',end_date='today'),fake.text(max_nb_chars=100)
-#     ))
-#     print ("Hello",i)
+        INSERT INTO donor(Name,Age,Gender,CNIC,Blood_Group,Contact,Address,Last_Donation_Date,Medical_History)
+        VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)
+    """,(
+        name,random.randint(18,50),gender,cnic,random.choice(blood_group),contact,fake.address(),fake.date_between(start_date='-1y',end_date='today'),fake.text(max_nb_chars=100)
+    ))
+    print ("Hello",i)
     
 
-# #Recipient Fake data..................................................
-# for i in range(100000):
-#     gender=random.choice(['Male','Female'])
-#     name=fake.first_name_male() if gender=='Male' else fake.first_name_female()
-#     cnic=cnic_gender_based(gender)
-#     contact='+923'+str(random.randint(0,4))+fake.msisdn()[3:10]
-#     cur.execute("""
-#        INSERT INTO recipient(Name,Age,Gender,CNIC,Blood_Group,Contact,Address,required_blood_amount,emergency_status)
-#         VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)
+#Recipient Fake data..................................................
+for i in range(100000):
+    gender=random.choice(['Male','Female'])
+    name=fake.first_name_male() if gender=='Male' else fake.first_name_female()
+    cnic=cnic_gender_based(gender)
+    contact='+923'+str(random.randint(0,4))+fake.msisdn()[3:10]
+    cur.execute("""
+       INSERT INTO recipient(Name,Age,Gender,CNIC,Blood_Group,Contact,Address,required_blood_amount,emergency_status)
+        VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)
+    """,(
+        name,random.randint(1,80),gender,cnic,random.choice(blood_group),contact,fake.address(),round(random.uniform(0.5,2.5),2),random.choice(['True','False'])
+    ))
+    print("Hello2",i)
+
+
+
+for i in range(100000):
+    name=fake.last_name()+" "+random.choice(blood_bank)
+    contact='+923'+str(random.randint(0,4))+fake.msisdn()[3:10]
+    cur.execute("""
+        INSERT INTO blood_bank(name,location,Contact)
+        VALUES(%s,%s,%s)
+    """,(
+        name,fake.address(),contact
+    ))
+    print("Hello  ",i)
+
+
+for i in range(100000):
+    name=fake.last_name()+" "+random.choice(hospital)
+    contact='+923'+str(random.randint(0,4))+fake.msisdn()[3:10]
+    cur.execute("""
+        INSERT INTO hospital(name,location,Contact)
+        VALUES(%s,%s,%s)
+    """,(
+        name,fake.address(),contact
+    ))
+    print("Hello  ",i)
+
+#Staff Table Fake data................................................
+
+for i in range(100000):
+    gender=random.choice(['Male','Female'])
+    name=fake.first_name_male() if gender=='Male' else fake.first_name_female()
+    cnic=cnic_gender_based(gender)
+    contact='+923'+str(random.randint(0,4))+fake.msisdn()[3:10]
+    blood_bank_id=random.choice(blood_bank_ids)  
+    cur.execute("""
+       INSERT INTO staff(Name,Gender,CNIC,role,blood_bank_id,Contact)
+        VALUES(%s,%s,%s,%s,%s,%s)
 #     """,(
-#         name,random.randint(1,80),gender,cnic,random.choice(blood_group),contact,fake.address(),round(random.uniform(0.5,2.5),2),random.choice(['True','False'])
-#     ))
-#     print("Hello2",i)
+        name,gender,cnic,random.choice(staff_role),blood_bank_id,contact)
+    )
+    print("Hello2",i)
 
 
+#Add fake data in admin table...........................................
 
-# for i in range(100000):
-#     name=fake.last_name()+" "+random.choice(blood_bank)
-#     contact='+923'+str(random.randint(0,4))+fake.msisdn()[3:10]
-#     cur.execute("""
-#         INSERT INTO blood_bank(name,location,Contact)
-#         VALUES(%s,%s,%s)
-#     """,(
-#         name,fake.address(),contact
-#     ))
-#     print("Hello  ",i)
+for i in range(100000):
+    gender=random.choice(['Male','Female'])
+    name=fake.first_name_male() if gender=='Male' else fake.first_name_female()
+    cnic=cnic_gender_based(gender)
+    contact='+923'+str(random.randint(0,4))+fake.msisdn()[3:10]  
+    cur.execute("""
+       INSERT INTO admin(Name,Gender,CNIC,role,Contact)
+        VALUES(%s,%s,%s,%s,%s)
+    """,(
+        name,gender,cnic,random.choice(admin_role),contact)
+    )
+    print("Hello2",i)
 
-
-# for i in range(100000):
-#     name=fake.last_name()+" "+random.choice(hospital)
-#     contact='+923'+str(random.randint(0,4))+fake.msisdn()[3:10]
-#     cur.execute("""
-#         INSERT INTO hospital(name,location,Contact)
-#         VALUES(%s,%s,%s)
-#     """,(
-#         name,fake.address(),contact
-#     ))
-#     print("Hello  ",i)
-
-# #Staff Table Fake data................................................
-
-# for i in range(100000):
-#     gender=random.choice(['Male','Female'])
-#     name=fake.first_name_male() if gender=='Male' else fake.first_name_female()
-#     cnic=cnic_gender_based(gender)
-#     contact='+923'+str(random.randint(0,4))+fake.msisdn()[3:10]
-#     blood_bank_id=random.choice(blood_bank_ids)  
-#     cur.execute("""
-#        INSERT INTO staff(Name,Gender,CNIC,role,blood_bank_id,Contact)
-#         VALUES(%s,%s,%s,%s,%s,%s)
-#     """,(
-#         name,gender,cnic,random.choice(staff_role),blood_bank_id,contact)
-#     )
-#     print("Hello2",i)
-
-
-# #Add fake data in admin table...........................................
-
-# for i in range(100000):
-#     gender=random.choice(['Male','Female'])
-#     name=fake.first_name_male() if gender=='Male' else fake.first_name_female()
-#     cnic=cnic_gender_based(gender)
-#     contact='+923'+str(random.randint(0,4))+fake.msisdn()[3:10]  
-#     cur.execute("""
-#        INSERT INTO admin(Name,Gender,CNIC,role,Contact)
-#         VALUES(%s,%s,%s,%s,%s)
-#     """,(
-#         name,gender,cnic,random.choice(admin_role),contact)
-#     )
-#     print("Hello2",i)
-
-#Add fake data in reception table.....................................
+Add fake data in reception table.....................................
 
 for i in range(100000):
     donor_id=random.choice(donor_ids)
